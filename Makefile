@@ -6,7 +6,7 @@
 #    By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 15:10:37 by oboutarf          #+#    #+#              #
-#    Updated: 2022/11/01 17:10:29 by oboutarf         ###   ########.fr        #
+#    Updated: 2022/11/01 19:16:59 by oboutarf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME 		= fdf42
 
 CC 			= gcc
 
-SRCS		= main/main.c
+SRCS		= main/main.c srcs/read/get_next_line.c \
+			  srcs/read/get_next_line_utils.c
 
 DEBUG_INFO  = -g3
 
@@ -34,8 +35,8 @@ $(MAKE):
 $(NAME): 	$(OBJ)
 			$(CC) $(OBJ) -L./mlx -lmlx -I./mlx -lXext -lX11 -o $(NAME)
 
-clean:		
-			$(RM) $(OBJ)
+clean:
+			$(RM) srcs/read/*.o
 			make clean -C mlx
 
 fclean:		clean
