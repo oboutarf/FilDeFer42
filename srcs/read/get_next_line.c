@@ -6,11 +6,11 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:12:05 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/01 19:03:15 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:47:28 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../../incld/fdf.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {

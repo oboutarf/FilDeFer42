@@ -6,21 +6,100 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:27:16 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/01 19:43:47 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/02 22:01:02 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../incld/fdf.h"
 
+int	check_fd(int ac)
+{
+	if (ac == 2)
+		return (0);
+	else
+		return (1);
+}
 
 int	main(int ac, char **av)
-{	
-	t_data		**map;
+{
+	int		**grid;
+	int		fd = 0;
+	int		i = -1;
 
-	if (ac != 2)
-		return (ft_error_noinput(), 1);
-	map = map_data_collector(av[ac]);
+	if (ac == 2)
+		fd = open(av[ac - 1], O_RDONLY);
+	else
+		return ((write(1, "\nERROR!\nNO_INPUT!\n\n", 19)), 1);
+	grid = parse_grid(av[ac - 1], fd);
+	close(fd);
+	return (0);
 }
+	// t_data		**map;
+	// if (ac != 2)
+	// 	return (ft_error_noinput(), 1);
+	// map = map_data_collector(av[ac]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
