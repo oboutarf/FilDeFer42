@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:12:05 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/02 14:47:28 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/03 18:43:27 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ char	*ft_strjoin(char *s1, char *s2)
 char	*ft_getbn(char *lgn, int s_bin)
 {
 	char	*dest;
-	int		i;
-
-	dest = (char *)malloc(sizeof(char) * (s_bin + 1));
-	if (!dest)
+	int		i;	
 		return (NULL);
 	i = 0;
 	while (s_bin + 1 > 0)

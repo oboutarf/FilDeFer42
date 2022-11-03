@@ -13,8 +13,8 @@
 
 #ifndef FDF_H
 # define FDF_H
-# define BUFFER_SIZE 1
-// # define DEFAULT map[0][0]
+# define BUFFER_SIZE 10000
+// # define DEFAULT grid[0][0]
 
 #include "../mlx/mlx_int.h"
 #include "../mlx/mlx.h"
@@ -31,7 +31,8 @@
 /**/
 /**/
 
-typedef struct	s_data {
+typedef struct	s_data
+{
 	void	*img;
 	char	*addr;
 	int	bits_per_pixel;
@@ -39,27 +40,12 @@ typedef struct	s_data {
 	int	endian;
 }			t_data;
 
-/* typedef struct
+typedef struct
 {
-	float		x;
-	float		y;
-	float		z;
-	int			is_last;
-
-	int			color;
-	int			scale;
-	int			z_scale;
-	int			shift_x;
-	int			shift_y;
-	int			is_isometric;
-	double		angle;
-	int			win_x;
-	int			win_y;
-	void		*mlx_ptr;
-	void		*win_ptr;
-}				t_data;
- */
-
+	int		**grid_data;
+	int		y_max;
+	int		x_max;
+}				r_data;
 
 // 	SPLIT_FUNCS
 //	************
@@ -72,7 +58,8 @@ char	**ft_split(char const *s, char c);
 
 // 	READ INPUT MAP TO GATHER INFORMATION
 //	************************************
-int	   	**parse_grid(char *input_file, int fd);
+
+r_data *parse_grid(char *input_file, int fd);
 char	*get_next_line(int fd);
 size_t	ft_strlen(char *str);
 void	ft_bzero(void *s, size_t n);
