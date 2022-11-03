@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:07:18 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/02 22:32:30 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/03 15:00:30 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,16 @@ int	**alloc_grid(char *input_file, int fd)
 	int		x;
 	int		y;
 
+	y = 1;
 	fd = open(input_file, O_RDONLY);
 	line = get_next_line(fd);
 	x = data_width(line);
-	free(line);
 	while (line = get_next_line(fd))
 		y++;
-	new = malloc((sizeof(int *) * y) + 1);
+	new = malloc((sizeof(int *) * (y + 1)));
 	while (y > 0)
 	{
-		new[y] = malloc((sizeof(int) * x) + 1);
+		new[y] = malloc((sizeof(int) * (x + 1)));
 		y--;
 	}
 	close (fd);
@@ -81,6 +81,7 @@ int	*write_data(char **line)
 	int		i = 0;
 	int		j = 0;
 
+	grid_x = malloc(sizeof(int) * (ft_strlen(line[i])+ 10));
 	while (line[i])
 	{
 		grid_x[j] = ft_atoi(line[i]);
@@ -90,30 +91,41 @@ int	*write_data(char **line)
 	return (grid_x);
 }
 
+
 int	**grid_data(char *input_file, int fd)
 {
-	char	**write_line;
 	int		**grid;
+	char	**write_line;
 	char	*line;
 	int		y = 0;
 
+	grid = alloc_grid(input_file, fd);
 	fd = open(input_file, O_RDONLY);
 	while (line = get_next_line(fd))
 	{
-		printf("\n\nWENT THERE!\n\n");
+		printf("\n\n%s || %d\n\n", line, y);
 		write_line = ft_split(line, ' ');
-		printf("%s", write_line[y]);
 		grid[y] = write_data(write_line);
+		printf("\033[0;31m");
+		printf("\n\n%d || %d\n\n", *grid[y], y);
+		printf("\033[0m");
 		y++;
 	}
+	printf("\n\n%s || %d\n\n", line, y);
 }
 
 int	**parse_grid(char *input_file, int fd)
 {
     int	**grid;
+	int	i = 0;
 
     fd = open(input_file, O_RDONLY);
-    grid = alloc_grid(input_file, fd);
+    // grid = alloc_grid(input_file, fd);
 	grid = grid_data(input_file, fd);
+/* 	while (grid[i])
+	{
+		// printf("1st value is: %d || on line: %d", *grid[i], i);
+		i++;
+	} */
     close(fd);
 }
