@@ -6,7 +6,7 @@
 #    By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 15:10:37 by oboutarf          #+#    #+#              #
-#    Updated: 2022/11/04 04:15:27 by oboutarf         ###   ########.fr        #
+#    Updated: 2022/11/04 05:13:03 by oboutarf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC 			= gcc
 
 SRCS		= main/main.c srcs/read/get_next_line.c \
 			  srcs/read/get_next_line_utils.c srcs/read/read.c \
-			  srcs/read/split.c \
+			  srcs/read/split.c srcs/print/print.c \
 
 DEBUG_INFO  = -g3
 

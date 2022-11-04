@@ -31,7 +31,7 @@
 /**/
 /**/
 
-typedef struct	s_data
+typedef struct
 {
 	void	*img;
 	char	*addr;
@@ -58,6 +58,8 @@ char	**ft_split(char const *s, char c);
 
 // 	READ INPUT MAP TO GATHER INFORMATION
 //	************************************
+
+void	print_grid_data(r_data *grid);
 
 r_data *parse_grid(char *input_file, int fd);
 char	*get_next_line(int fd);

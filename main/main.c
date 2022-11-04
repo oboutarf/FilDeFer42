@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:27:16 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/04 04:17:16 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/04 05:17:03 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,47 +24,16 @@ int	main(int ac, char **av)
 {
 	r_data		*grid;
 	int		fd = 0;
-	int		i = -1;
 
 	if (ac == 2)
 		fd = open(av[ac - 1], O_RDONLY);
 	else
 		return ((write(1, "\nERROR!\nNO_INPUT!\n\n", 19)), 1);
 	grid = parse_grid(av[ac - 1], fd);
+	// print_grid_data(grid);
 	close(fd);
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* void	my_mlx_pixel_put(t_data *data, int x, int y, int color)

@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:07:18 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/04 04:36:16 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/04 05:16:39 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ r_data	*push_coordonnates(r_data *grid, char *grid_output)
 	return (grid);
 }
 
-
 r_data	*assign_coordonnates_max(char *buf)
 {
 	r_data 		*grid;
@@ -124,6 +123,8 @@ r_data *parse_grid(char *input_file, int fd)
     r_data		*grid;
 	int			number_lines;
 	int			y = 0;
+	int			y1 = 0;
+	int			x = 0;	
 
     fd = open(input_file, O_RDONLY);
 	ft_bzero(buf, BUFFER_SIZE);
@@ -131,20 +132,23 @@ r_data *parse_grid(char *input_file, int fd)
 	grid = assign_coordonnates_max(buf);
 	grid = malloc_grid(grid, y);
 	grid = push_coordonnates(grid, buf);
-	// free(buf);
-	// printf("\n\n%d\n\n", grid->grid_data[2][2]);
+	return (grid);
     close(fd);
 }
+
+
 	// printf("%s\n", grid_output);
 	// printf("\n\ny is: %d\n\n", y);
 	// printf("%s\n",*ft_split(grid_output, ' '));
 	// printf("\n\ny_max is : %d\n\n", grid->y_max);
 	// printf("\n\n%d\n\n", (grid->x_max * grid->y_max));
+	// printf("\n\n%d | %d\n\n", grid->x_max, grid->y_max);
 	// printf("\n\nLign is ----->    %s   \n\n", lines[y]);
 	// printf( "\n\nx_max is: %d;\ny_max is: %d;\n\n", grid->x_max, grid->y_max);
 	// printf("\n\ngrid_x_max is: %d || grid_y_max is: %d || pointer on grid_data is: %p\n\n", grid->x_max, grid->y_max, grid->grid_data);
 	// printf("\n\n  --  lines is: %s --  \n\n", lines[i + 7]);
 	// printf("\n\n%d\n\n", grid->x_max);
+	// printf("\n\n%d\n\n", grid->grid_data[2][2]);
 	// printf("\n\n--- grid->x_max is: %d || grid->y_max is: %d ---\n\n", grid->x_max, grid->y_max);
 	// printf("grid_x_max is: %d\n", grid->x_max);
 	// printf("\n\n%d\n\n", x);
