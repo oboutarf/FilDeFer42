@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:07:18 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/04 03:44:33 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/04 04:36:16 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ int	data_width(char *line)
 	count = 0;
 	while (line[cnt] != '\n')
 	{
-		if (line[cnt] == ' ')
+		if (line[cnt] == ' ' && line[cnt + 1] != '\n')
 		{
 			count++;
 			while (line[cnt] == ' ')
 				cnt++;
 		}
-		cnt++;
+		else
+			cnt++;
 	}
 	return (count);
 }
@@ -111,7 +112,7 @@ r_data	*malloc_grid(r_data *grid, int y)
 	{
 		if (y == 0)
 			grid->grid_data = malloc(sizeof(int *) * (grid->y_max));
-		grid->grid_data[y] = malloc(sizeof(int) * (grid->x_max)); 
+		grid->grid_data[y] = malloc(sizeof(int) * (grid->x_max));
 		y++;
 	}
 	return (grid);
@@ -130,16 +131,10 @@ r_data *parse_grid(char *input_file, int fd)
 	grid = assign_coordonnates_max(buf);
 	grid = malloc_grid(grid, y);
 	grid = push_coordonnates(grid, buf);
-	printf("\n\n%d\n\n", grid->grid_data[2][2]);
+	// free(buf);
+	// printf("\n\n%d\n\n", grid->grid_data[2][2]);
     close(fd);
 }
-
-
-
-
-
-	
-	// free(buf);
 	// printf("%s\n", grid_output);
 	// printf("\n\ny is: %d\n\n", y);
 	// printf("%s\n",*ft_split(grid_output, ' '));
@@ -153,92 +148,14 @@ r_data *parse_grid(char *input_file, int fd)
 	// printf("\n\n--- grid->x_max is: %d || grid->y_max is: %d ---\n\n", grid->x_max, grid->y_max);
 	// printf("grid_x_max is: %d\n", grid->x_max);
 	// printf("\n\n%d\n\n", x);
+	// printf("\033[0;31m");
+	// printf("\n\n%d || %d\n\n", *grid[y], y);
+	// printf("\033[0m");
+	// printf("\n\n%s || %d\n\n", line, y);
+	// printf("\n\n%s || %d\n\n", line, y);
 	/* 	while (i < 100)
 			printf("\n%s\n", lines[i]);
 			i++;
 		}
 		return (grid); 
 	*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* char	*ft_getbn(char *lgn, int s_bin)
-{
-	char	*dest;
-	int		i;	
-		return (NULL);
-	i = 0;
-	while (s_bin + 1 > 0)
-	{
-		dest[i] = lgn[i];
-		if (dest[i] == '\n')
-			break ;
-		s_bin--;
-		i++;
-	}
-	dest[i + 1] = 0;
-	return (free(lgn), dest);
-}
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// printf("\033[0;31m");
-		// printf("\n\n%d || %d\n\n", *grid[y], y);
-		// printf("\033[0m");
-		// printf("\n\n%s || %d\n\n", line, y);
-		// printf("\n\n%s || %d\n\n", line, y);
-
-		/* int	*write_data(char **line)
-		{
-			int		*grid_x;
-			int		i = 0;
-			int		j = 0;
-
-			grid_x = malloc(sizeof(int) * (ft_strlen(line[i])+ 10));
-			while (line[i])
-			{
-				grid_x[j] = ft_atoi(line[i]);
-				i++;
-				j++;
-			}
-			return (grid_x);
-		} */
