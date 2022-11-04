@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:07:18 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/04 05:25:58 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/04 06:22:35 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,31 +136,3 @@ r_data *parse_grid(char *input_file, int fd)
 	return (grid);
     close(fd);
 }
-
-
-	// printf("%s\n", grid_output);
-	// printf("\n\ny is: %d\n\n", y);
-	// printf("%s\n",*ft_split(grid_output, ' '));
-	// printf("\n\ny_max is : %d\n\n", grid->y_max);
-	// printf("\n\n%d\n\n", (grid->x_max * grid->y_max));
-	// printf("\n\n%d | %d\n\n", grid->x_max, grid->y_max);
-	// printf("\n\nLign is ----->    %s   \n\n", lines[y]);
-	// printf( "\n\nx_max is: %d;\ny_max is: %d;\n\n", grid->x_max, grid->y_max);
-	// printf("\n\ngrid_x_max is: %d || grid_y_max is: %d || pointer on grid_data is: %p\n\n", grid->x_max, grid->y_max, grid->grid_data);
-	// printf("\n\n  --  lines is: %s --  \n\n", lines[i + 7]);
-	// printf("\n\n%d\n\n", grid->x_max);
-	// printf("\n\n%d\n\n", grid->grid_data[2][2]);
-	// printf("\n\n--- grid->x_max is: %d || grid->y_max is: %d ---\n\n", grid->x_max, grid->y_max);
-	// printf("grid_x_max is: %d\n", grid->x_max);
-	// printf("\n\n%d\n\n", x);
-	// printf("\033[0;31m");
-	// printf("\n\n%d || %d\n\n", *grid[y], y);
-	// printf("\033[0m");
-	// printf("\n\n%s || %d\n\n", line, y);
-	// printf("\n\n%s || %d\n\n", line, y);
-	/* 	while (i < 100)
-			printf("\n%s\n", lines[i]);
-			i++;
-		}
-		return (grid); 
-	*/
