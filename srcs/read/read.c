@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:07:18 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/03 21:36:58 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/04 03:44:33 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@ int	data_width(char *line)
 	while (line[cnt] != '\n')
 	{
 		if (line[cnt] == ' ')
+		{
 			count++;
+			while (line[cnt] == ' ')
+				cnt++;
+		}
 		cnt++;
 	}
-	return (count - 1);
+	return (count);
 }
 
 int	ft_atoi(char *nptr)
@@ -68,64 +72,49 @@ r_data *get_number_of_lines(char *buf, r_data *grid)
 	return (grid);
 }
 
-
-int	line_len()
-{
-	
-}
-
-
-char 	*get_line(char *src)
-{
-	// char	**cut_coordonnates;
-	char 	*newcut_backslach_n;
-	int		i = 0;
-	r_data	*grid;
-
-	// int		x = 0;
-	newcut_backslach_n = malloc(sizeof(char)*);
-	while (src[i] != '\n')
-	{
-		newcut_backslach_n[i] = src[i];
-		i++;
-	}
-}
-
 r_data	*push_coordonnates(r_data *grid, char *grid_output)
 {
-	char	*line;
-	int		x;
-	int		i;
+	char 	**lines;
+	int		x = 0;
+	int		y = 0;
+	int		stop = 0;
+	int		i = 0;
 
-	line = get_line(grid_output);
+	lines = ft_split(grid_output, ' ');
+	while (y < grid->y_max)
+	{
+		x = 0;
+		while (x < grid->x_max)
+		{
+			grid->grid_data[y][x] = ft_atoi(lines[i]);
+			x++;
+			i++;
+		}
+		y++;
+	}
+	return (grid);
 }
-
-
-
-
-
 
 
 r_data	*assign_coordonnates_max(char *buf)
 {
 	r_data 		*grid;
-	int			number_lines;
-
 
 	grid = malloc(sizeof(r_data));
 	grid = get_number_of_lines(buf, grid);
-	// printf( "\n\nx_max is: %d;\ny_max is: %d;\n\n", grid->x_max, grid->y_max);
 	return (grid);
 }
 
 r_data	*malloc_grid(r_data *grid, int y)
 {
-	grid->grid_data = malloc(sizeof(int *) * (grid->y_max + 1));
 	while (y < grid->y_max)
 	{
-		grid->grid_data[y] = malloc(sizeof(int) * (grid->x_max + 1));
+		if (y == 0)
+			grid->grid_data = malloc(sizeof(int *) * (grid->y_max));
+		grid->grid_data[y] = malloc(sizeof(int) * (grid->x_max)); 
 		y++;
 	}
+	return (grid);
 }
 
 r_data *parse_grid(char *input_file, int fd)
@@ -141,6 +130,7 @@ r_data *parse_grid(char *input_file, int fd)
 	grid = assign_coordonnates_max(buf);
 	grid = malloc_grid(grid, y);
 	grid = push_coordonnates(grid, buf);
+	printf("\n\n%d\n\n", grid->grid_data[2][2]);
     close(fd);
 }
 
@@ -148,6 +138,27 @@ r_data *parse_grid(char *input_file, int fd)
 
 
 
+	
+	// free(buf);
+	// printf("%s\n", grid_output);
+	// printf("\n\ny is: %d\n\n", y);
+	// printf("%s\n",*ft_split(grid_output, ' '));
+	// printf("\n\ny_max is : %d\n\n", grid->y_max);
+	// printf("\n\n%d\n\n", (grid->x_max * grid->y_max));
+	// printf("\n\nLign is ----->    %s   \n\n", lines[y]);
+	// printf( "\n\nx_max is: %d;\ny_max is: %d;\n\n", grid->x_max, grid->y_max);
+	// printf("\n\ngrid_x_max is: %d || grid_y_max is: %d || pointer on grid_data is: %p\n\n", grid->x_max, grid->y_max, grid->grid_data);
+	// printf("\n\n  --  lines is: %s --  \n\n", lines[i + 7]);
+	// printf("\n\n%d\n\n", grid->x_max);
+	// printf("\n\n--- grid->x_max is: %d || grid->y_max is: %d ---\n\n", grid->x_max, grid->y_max);
+	// printf("grid_x_max is: %d\n", grid->x_max);
+	// printf("\n\n%d\n\n", x);
+	/* 	while (i < 100)
+			printf("\n%s\n", lines[i]);
+			i++;
+		}
+		return (grid); 
+	*/
 
 
 
@@ -164,7 +175,24 @@ r_data *parse_grid(char *input_file, int fd)
 
 
 
-
+/* char	*ft_getbn(char *lgn, int s_bin)
+{
+	char	*dest;
+	int		i;	
+		return (NULL);
+	i = 0;
+	while (s_bin + 1 > 0)
+	{
+		dest[i] = lgn[i];
+		if (dest[i] == '\n')
+			break ;
+		s_bin--;
+		i++;
+	}
+	dest[i + 1] = 0;
+	return (free(lgn), dest);
+}
+ */
 
 
 
