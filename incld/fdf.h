@@ -16,16 +16,17 @@
 # define BUFFER_SIZE 10000
 // # define DEFAULT grid[0][0]
 
-#include "../mlx/mlx_int.h"
-#include "../mlx/mlx.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <unistd.h>
+# include "../mlx/mlx_int.h"
+# include "../mlx/mlx.h"
+# include <math.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <stddef.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdarg.h>
+# include <unistd.h>
 
 // STRUCTURE FOR MAP
 /**/
@@ -43,6 +44,7 @@ typedef struct
 typedef struct
 {
 	int		**grid_data;
+	int		last_data;
 	int		y_max;
 	int		x_max;
 }				r_data;

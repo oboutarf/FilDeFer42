@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:27:16 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/04 06:37:28 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/04 07:42:15 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int ac, char **av)
 	// print_grid_data(grid);
 // # Implement struct grid with MiniLibx Projection # //
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 800, 700, "Hello world!");
+	mlx_win = mlx_new_window(mlx, 1800, 1700, "Hello world!");
 	img.img = mlx_new_image(mlx, 300, 300);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
@@ -61,14 +61,14 @@ int	main(int ac, char **av)
 		while (x < grid->x_max)
 		{
 			if (grid->grid_data[y][x] > 0)
-				my_mlx_pixel_put(&img, y, x, 0x00FF0000);
+				my_mlx_pixel_put(&img, x * grid->x_max, y * grid->y_max, 0x00FF0000);
 			x++;
 		}
 		y++;
 	}
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 // # Terminate Program # //
-	
+
 	mlx_loop(mlx);
 	close(fd);
 // # End
