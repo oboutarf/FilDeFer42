@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:07:18 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/04 05:16:39 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/04 05:25:58 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	data_width(char *line)
 	count = 0;
 	while (line[cnt] != '\n')
 	{
-		if (line[cnt] == ' ' && line[cnt + 1] != '\n')
+		//  && line[cnt + 1] != '\n'     -> Depends on case, if whitespace present before '\n'
+		if (line[cnt] == ' ')
 		{
 			count++;
 			while (line[cnt] == ' ')
@@ -65,7 +66,7 @@ r_data *get_number_of_lines(char *buf, r_data *grid)
 	int	y = 0;
 
 	x = data_width(buf);
-	while (buf[count++] && buf[count + 1])
+	while (buf[count++])
 		if (buf[count] == '\n')
 			y++;
 	grid->x_max = x;
