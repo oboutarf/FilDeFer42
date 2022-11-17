@@ -6,7 +6,7 @@
 #    By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 15:10:37 by oboutarf          #+#    #+#              #
-#    Updated: 2022/11/04 05:13:03 by oboutarf         ###   ########.fr        #
+#    Updated: 2022/11/17 12:26:48 by oboutarf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ $(NAME): 	$(OBJ)
 			$(CC) $(OBJ) -L./mlx -lmlx -I./mlx -lXext -lX11 -o $(NAME)
 
 clean:
-			$(RM) srcs/read/*.o $(RM) main/*.o
+			$(RM) srcs/read/*.o && $(RM) main/*.o
+			$(RM) srcs/print/*.o && $(RM) srcs/error/*.o
 			make clean -C mlx
 
 fclean:		clean

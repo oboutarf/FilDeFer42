@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:27:16 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/04 07:42:15 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/17 15:57:34 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	check_fd(int ac)
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-
 {
 	char	*dst;
 
@@ -31,13 +30,13 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int	main(int ac, char **av)
 {
-	int		x = 0;
-	int		y = 0;
-	void	*mlx;
-	void	*mlx_win;
 	r_data	*grid;
 	t_data	img;
+	void	*mlx_win;
+	void	*mlx;
 	int		fd = 0;
+	int		x = 0;
+	int		y = 0;
 
 // # Init struct grid # //
 	if (ac == 2)
@@ -48,31 +47,21 @@ int	main(int ac, char **av)
 	// print_grid_data(grid);
 // # Implement struct grid with MiniLibx Projection # //
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1800, 1700, "Hello world!");
-	img.img = mlx_new_image(mlx, 300, 300);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+	img.img = mlx_new_image(mlx, 1920, 1080);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 // # Checking Coordonates # //	-> UNACTIVATED
-	// print_grid_data(grid);
+	print_grid_data(grid);
 // # Implement struct grid with MiniLibx Projection # //
-	while (y < grid->y_max)
-	{
-		x = 0;
-		while (x < grid->x_max)
-		{
-			if (grid->grid_data[y][x] > 0)
-				my_mlx_pixel_put(&img, x * grid->x_max, y * grid->y_max, 0x00FF0000);
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 4, 1080 / 2);
+	mlx_loop(mlx);
 // # Terminate Program # //
 
-	mlx_loop(mlx);
 	close(fd);
 // # End
 }
+
+
 // # Save Shit # //
 /* int	main(int ac, char **av)
 {
