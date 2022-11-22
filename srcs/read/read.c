@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:07:18 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/04 07:34:16 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/22 19:34:01 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	data_width(char *line)
 		else
 			cnt++;
 	}
-	return (count);
+	return (count + 1);
 }
 
 int	ft_atoi(char *nptr)
@@ -83,10 +83,10 @@ r_data	*push_coordonnates(r_data *grid, char *grid_output)
 	int		i = 0;
 
 	lines = ft_split(grid_output, ' ');
-	while (y < grid->y_max)
+	while (y <= grid->y_max)
 	{
 		x = 0;
-		while (x < grid->x_max)
+		while (x + 1 < grid->x_max)
 		{
 			grid->grid_data[y][x] = ft_atoi(lines[i]);
 			x++;
@@ -108,7 +108,7 @@ r_data	*assign_coordonnates_max(char *buf)
 
 r_data	*malloc_grid(r_data *grid, int y)
 {
-	while (y < grid->y_max)
+	while (y <= grid->y_max)
 	{
 		if (y == 0)
 			grid->grid_data = malloc(sizeof(int *) * (grid->y_max));
@@ -133,6 +133,8 @@ r_data *parse_grid(char *input_file, int fd)
 	grid = assign_coordonnates_max(buf);
 	grid = malloc_grid(grid, y);
 	grid = push_coordonnates(grid, buf);
-	return (grid);
+	printf("Ymax is: %d\n", grid->y_max);
+	printf("Xmax is: %d\n", grid->x_max);
     close(fd);
+	return (grid);
 }

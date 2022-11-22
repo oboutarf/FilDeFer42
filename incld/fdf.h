@@ -14,6 +14,7 @@
 #ifndef FDF_H
 # define FDF_H
 # define BUFFER_SIZE 10000
+# define SEP 10
 // # define DEFAULT grid[0][0]
 
 # include "../mlx/mlx_int.h"
@@ -34,11 +35,11 @@
 
 typedef struct
 {
-	void	*img;
 	char	*addr;
-	int	bits_per_pixel;
-	int	line_length;
-	int	endian;
+	void	*img;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 }			t_data;
 
 typedef struct
@@ -60,12 +61,10 @@ char	**ft_split(char const *s, char c);
 
 // 	READ INPUT MAP TO GATHER INFORMATION
 //	************************************
-
 void	print_grid_data(r_data *grid);
-
-r_data *parse_grid(char *input_file, int fd);
-char	*get_next_line(int fd);
+r_data 	*parse_grid(char *input_file, int fd);
 size_t	ft_strlen(char *str);
+char	*get_next_line(int fd);
 void	ft_bzero(void *s, size_t n);
 void	ft_mylstbuf(char *buf, char *lgn, int s_bin);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
@@ -73,5 +72,9 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_getbn(char *lgn, int s_bin);
 int		ft_strbn(char *str);
 void    ft_error_noinput(void);
+
+// 	DRAWING FUNCTIONS
+//	************************************
+void	center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win);
 
 #endif

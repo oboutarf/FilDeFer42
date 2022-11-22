@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:27:16 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/17 15:57:34 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/22 19:36:52 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,6 @@ int	check_fd(int ac)
 		return (0);
 	else
 		return (1);
-}
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
 }
 
 int	main(int ac, char **av)
@@ -44,24 +36,19 @@ int	main(int ac, char **av)
 	else
 		return ((write(1, "\nERROR!\nNO_INPUT!\n\n", 19)), 1);
 	grid = parse_grid(av[ac - 1], fd);
-	// print_grid_data(grid);
 // # Implement struct grid with MiniLibx Projection # //
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "fdf42 -oboutarf");
+	img.img = mlx_new_image(mlx, 1920 / 4, 1080 / 3);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-// # Checking Coordonates # //	-> UNACTIVATED
-	print_grid_data(grid);
+// # Checking grid data (unactivated) # //
+	// print_grid_data(grid);
 // # Implement struct grid with MiniLibx Projection # //
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 4, 1080 / 2);
-	mlx_loop(mlx);
+	center_draw(img, grid, mlx, mlx_win);
 // # Terminate Program # //
-
 	close(fd);
 // # End
 }
-
-
 // # Save Shit # //
 /* int	main(int ac, char **av)
 {
