@@ -42,29 +42,27 @@ void    place_pixels(t_data img, r_data *grid, void *mlx, void *mlx_win)
             if (grid->grid_data[y][x] == 0)
             {
                 my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin,  0x0000ffff);
-                while (segvar < 10)
+                while (segvar++ < 10)
                 {
                     my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin, 0x7FFDC000);
                     my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin_sv, 0x7FFDC000);
                     ywin_sv--;
                     xwin++;
                     ywin++;
-                    segvar++;
                 }
             }
             else
             {
-                my_mlx_pixel_put(&img, 100 + xwin, ((grid->grid_data[y][x] + 40) * - 1) + ywin,  0x00FF0000);
-                while (segvar < 10)
+                my_mlx_pixel_put(&img, 100 + xwin, ((grid->grid_data[y][x] * 3) * - 1) + ywin,  0x00FF0000);
+                while (segvar++ < 10)
                 {
-                    my_mlx_pixel_put(&img, 100 + xwin, ((grid->grid_data[y][x] + 40) * - 1) + ywin, 0x7FFDC000);
+                    my_mlx_pixel_put(&img, 100 + xwin, ((grid->grid_data[y][x] * 3) * - 1) + ywin, 0x7FFDC000);
                     my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin_sv, 0x7FFDC000);
                     ywin_sv--;
                     xwin++;
                     ywin++;
-                    segvar++;
                 }
-            }    
+            }
             ywin_sv = ywin;
             segvar = 0;
             x++;
