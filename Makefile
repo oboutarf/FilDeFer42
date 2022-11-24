@@ -25,21 +25,22 @@ OBJ			= $(SRCS:.c=.o)
 RM			= rm -rf
 
 
-all:		$(MAKE) $(NAME)
+all:		$(NAME)
 
-$(MAKE):
-			make -C mlx
+# mlx/libmlx.a:
 
 %.o: %.c
-			$(CC) -I./incld -I./mlx -L./mlx -lXext -lX11 -lmlx -c $< -o $@
+			$(CC) -Iincld -Imlx -c $< -o $@
 
 $(NAME): 	$(OBJ)
-			$(CC) $(OBJ) -L./mlx -lmlx -I./mlx -lXext -lX11 -o $(NAME)
+			make -C mlx
+			$(CC) $(OBJ) mlx/libmlx.a -Lmlx -Imlx -lXext -lX11 -o $(NAME)
+
 
 clean:
 			$(RM) srcs/read/*.o && $(RM) main/*.o
 			$(RM) srcs/print/*.o && $(RM) srcs/error/*.o
-			$(RM) srcs/draw/*.o 
+			$(RM) srcs/draw/*.o
 			make clean -C mlx
 
 fclean:		clean
