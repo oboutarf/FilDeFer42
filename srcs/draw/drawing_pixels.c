@@ -20,10 +20,29 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-/* void    draw_segment()
+void    draw_segment()
 {
-    
-} */
+    while (y <= grid->y_max)
+    {
+        while (x < grid->x_max)
+        {
+            segvar_x = (x_win - xwin_next_pose);
+            segvar_y = (y_win - ywin_next_pose);
+            if (segvar_x > segvar_y)
+            {
+                segvar_x = segvar_x / segvar_x;
+                segvar_y = segvar_y / segvar_x;
+            }
+            else
+            {
+                segvar_x = segvar_x / segvar_y;
+                segvar_y = segvar_y / segvar_y;
+            }
+    }
+    mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 2.5, 1080 / 3);
+    mlx_loop(mlx);
+    }
+}
 
 void    place_pixels(t_data img, r_data *grid, void *mlx, void *mlx_win)
 {
