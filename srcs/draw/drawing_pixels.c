@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incld/fdf.h"
+#include "fdf.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -20,31 +20,106 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void    draw_segment()
+float	delta_max_x(float delta_x, float delta_y, float x1)
 {
-    while (y <= grid->y_max)
-    {
-        while (x < grid->x_max)
-        {
-            segvar_x = (x_win - xwin_next_pose);
-            segvar_y = (y_win - ywin_next_pose);
-            if (segvar_x > segvar_y)
-            {
-                segvar_x = segvar_x / segvar_x;
-                segvar_y = segvar_y / segvar_x;
-            }
-            else
-            {
-                segvar_x = segvar_x / segvar_y;
-                segvar_y = segvar_y / segvar_y;
-            }
-    }
-    mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 2.5, 1080 / 3);
-    mlx_loop(mlx);
-    }
+	if (delta_x > delta_y)
+		increment_x = x1 / delta_x;
+	else
+		increment_x = x1 / delta_y;
+	return (increment_x);
 }
 
-void    place_pixels(t_data img, r_data *grid, void *mlx, void *mlx_win)
+float	delta_max_y(float delta_x, float delta_y, float x1)
+{
+	if (delta_x > delta_y)
+		increment_y = y1 / delta_x;
+	else
+		increment_y = y1 / delta_y;
+	return (increment_y)
+}
+
+void	draw_segments_y_axis(t_data img, r_data *grid, void *mlx, void *mlx_win)
+{
+	float 	x1 = 0;
+	float	y1 = 0;
+	float	x2 = x1 + 1;
+	float	y2 = y1 + 1;
+    float   delta_x = 0;
+    float   delta_y = 0;
+    float   increment_x = 0;
+    float	increment_y = 0;
+
+	while (y1 <= grid->y_max)
+	{
+		while (x1 < grid->x_max)
+		{
+			delta_x = x2 - x1;
+			delta_y = y2 - y1;
+			increment_x = delta_max_x(delta_x, delta_y, x1);
+			increment_y = delta_max_y(delta_x, delta_y, y1);
+			while (increment_x != x2 && increment_y != y2)
+			{
+				if (increment_x != x2)
+					my_mlx_pixel_put();
+				if (increment_y != y2)
+					my_mlx_pixel_put();
+				increment_x += increment_x;
+				increment_y += increment_y;
+			}
+			x1++;
+			x2 = x1 + 1;
+		}
+		y1++;
+	}
+}
+
+void	draw_segments_x_axis(t_data img, r_data *grid, void *mlx, void *mlx_win)
+{
+	float 	x1 = 0;
+	float	y1 = 0;
+	float	x2 = x1 + 1;
+	float	y2 = y1 + 1;
+    float   delta_x = 0;
+    float   delta_y = 0;
+    float   increment_x = 0;
+    float	increment_y = 0;
+
+	while (y1 <= grid->y_max)
+	{
+		while (x1 < grid->x_max)
+		{
+			delta_x = x2 - x1;
+			delta_y = y2 - y1;
+			increment_x = delta_max_x(delta_x, delta_y, x1);
+			increment_y = delta_max_y(delta_x, delta_y, y1);
+			while (increment_x != x2 && increment_y != y2)
+			{
+				if (increment_x != x2)
+					my_mlx_pixel_put();
+				if (increment_y != y2)
+					my_mlx_pixel_put();
+				increment_x += increment_x;
+				increment_y += increment_y;
+			}
+			x1++;
+			x2 = x1 + 1;
+		}
+		y1++;
+	}
+}
+
+void	center_drawing()
+{
+	while (y++ <= grid->y_max)
+	{
+		draw_segments_x_axis(img, grid, mlx,  mlx_win);
+		draw_segments_y_axis(img, grid, mlx,  mlx_win);
+	}
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 2.5, 1080 / 3);
+	mlx_loop(mlx);
+}
+
+/* void    place_pixels(t_data img, r_data *grid, void *mlx, void *mlx_win)
 {
     int     segvar = 0;
     int     sep = 10;
@@ -94,10 +169,10 @@ void    place_pixels(t_data img, r_data *grid, void *mlx, void *mlx_win)
         y++;
     }
     mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 2.5, 1080 / 3);
-    mlx_loop(mlx);
-}
+    mlx_loop(mlx);corcorans meurtre
+} */
 
-void    center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win)
+/* void    center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win)
 {
-    place_pixels(img, grid, mlx, mlx_win);
-}
+	place_pixels(img, grid, mlx, mlx_win);
+} */

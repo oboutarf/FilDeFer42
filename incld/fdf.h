@@ -14,8 +14,7 @@
 #ifndef FDF_H
 # define FDF_H
 # define BUFFER_SIZE 10000
-# define SEP 10
-// # define DEFAULT grid[0][0]
+# define SPACE 10
 
 # include "../mlx/mlx_int.h"
 # include "../mlx/mlx.h"
