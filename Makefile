@@ -30,11 +30,11 @@ all:		$(NAME)
 # mlx/libmlx.a:
 
 %.o: %.c
-			$(CC) -Iincld -Imlx -c $< -o $@
+			$(CC) $(DEBUG_INFO) -Iincld -Imlx -c $< -o $@
 
 $(NAME): 	$(OBJ)
 			make -C mlx
-			$(CC) $(OBJ) mlx/libmlx.a -Lmlx -Imlx -lXext -lX11 -o $(NAME)
+			$(CC) $(OBJ) mlx/libmlx.a -Lmlx -Imlx -lXext -lX11 -lm -o $(NAME)
 
 
 clean:

@@ -133,8 +133,6 @@ r_data *parse_grid(char *input_file, int fd)
 	grid = assign_coordonnates_max(buf);
 	grid = malloc_grid(grid, y);
 	grid = push_coordonnates(grid, buf);
-	printf("Ymax is: %d\n", grid->y_max);
-	printf("Xmax is: %d\n", grid->x_max);
     close(fd);
 	return (grid);
 }

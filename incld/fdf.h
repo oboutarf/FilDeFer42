@@ -32,6 +32,22 @@
 /**/
 /**/
 
+enum	e_vars_drawing
+{
+	x_1,
+	x_2,
+	y_1,
+	y_2,
+	sep,
+	delta_x,
+	delta_y,
+	delta_max,
+	x_win_px,
+	y_win_px,
+	increment_x,
+	increment_y
+};
+
 typedef struct
 {
 	char	*addr;
@@ -44,7 +60,6 @@ typedef struct
 typedef struct
 {
 	int		**grid_data;
-	int		last_data;
 	int		y_max;
 	int		x_max;
 }				r_data;
