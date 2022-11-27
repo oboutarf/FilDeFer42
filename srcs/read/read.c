@@ -83,7 +83,7 @@ r_data	*push_coordonnates(r_data *grid, char *grid_output)
 	int		i = 0;
 
 	lines = ft_split(grid_output, ' ');
-	while (y <= grid->y_max)
+	while (y < grid->y_max)
 	{
 		x = 0;
 		while (x + 1 < grid->x_max)

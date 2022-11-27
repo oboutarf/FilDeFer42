@@ -17,7 +17,9 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	y *= data->line_length;
+	x *= (data->bits_per_pixel / 8);
+	dst = data->addr + (y + x);
 	*(unsigned int*)dst = color;
 }
 
@@ -61,7 +63,7 @@ double	delta_max_y(double *drawing_vars)
 double	*init_tracking(double *drawing_vars)
 {
 	drawing_vars[x_1] = 0;
-	drawing_vars[x_2] = 1;
+	drawing_vars[x_2] = 0;
 	drawing_vars[y_1] = 0;
 	drawing_vars[y_2] = 0;
 	drawing_vars[sep] = 10;
@@ -74,21 +76,45 @@ double	*init_tracking(double *drawing_vars)
 	drawing_vars[increment_y] = 0;
 	return (drawing_vars);
 }
-// printf("for x: %ld || y: %ld =>> delta_x is: %f || delta_y is: %f\n", x, y, drawing_vars[delta_x], drawing_vars[delta_y]);
-// printf("y is: %ld for delta_max: %f  ||  increment_x: %f  increment_y: %f\n", y, drawing_vars[delta_max], drawing_vars[increment_x], drawing_vars[increment_y]);
-// printf("%d  ||  INCREMENT_X: %f ; INCREMENT_Y: %f  ||  X_WIN=%f  Y_WIN=%f\n\n", i, drawing_vars[increment_x], drawing_vars[increment_y], drawing_vars[x_win_px], drawing_vars[y_win_px]);
-// printf("X_1: %f for Y_1: %f\n", drawing_vars[x_1], drawing_vars[y_1]);
-// init_segmentY();
 
-void	init_segment(double *drawing_vars, r_data *grid, int y_win_px_save, t_data img, void *mlx, void *mlx_win)
+// void	draw_segment(double *drawing_vars, r_data *grid, t_data img, void *mlx, void *mlx_win)
+// {
+// 	long	x = drawing_vars[x_1];
+// 	long	y = drawing_vars[y_1];
+// 	int		i = 0;
+
+// 	drawing_vars[x_2] = drawing_vars[x_win_px] + grid->grid_data[y][x];
+// 	drawing_vars[y_2] = drawing_vars[y_win_px] + (grid->grid_data[y][x + 1] * 3);
+
+// 	drawing_vars[delta_x] = drawing_vars[x_2] - drawing_vars[x_1];
+// 	drawing_vars[delta_y] = drawing_vars[y_2] - drawing_vars[y_1];
+// 	obtaining_delta_max(drawing_vars);
+// 	drawing_vars[increment_x] = delta_max_x(drawing_vars);
+// 	drawing_vars[increment_y] = delta_max_y(drawing_vars);
+// 	while (i <= drawing_vars[delta_max])
+// 	{
+// 		x = round(drawing_vars[x_1]);
+// 		y = round(drawing_vars[y_1]);
+// 		my_mlx_pixel_put(&img, drawing_vars[x_1], drawing_vars[y_1], 0x00FF0000);
+// 		i++;
+// 		drawing_vars[x_1] += drawing_vars[increment_x];
+// 		drawing_vars[y_1] += drawing_vars[increment_y];
+// 	}
+// }
+
+
+double	convert_coordonates_for_win(double *drawing_vars, r_data *grid)
+{
+	drawing_vars[x_win_px] += drawing_vars[x_2] + (grid->grid_data[y_2][x_2] * 3);
+	drawing_vars[y_win_px] += drawing_vars[y_2] + (grid->grid_data[y_2][x_2] * 3);
+}
+
+void	draw_segment(double *drawing_vars, t_data img, void *mlx, void *mlx_win)
 {
 	long	x = drawing_vars[x_1];
 	long	y = drawing_vars[y_1];
 	int		i = 0;
 
-	drawing_vars[y_2] = y + drawing_vars[sep] + ((grid->grid_data[y][x + 1] * 3) * -1);
-	// drawing_vars[x_2] = x + 10 + ((grid->grid_data[y][x + 1] * 3) * -1);
-	// printf("%f\n", drawing_vars[y_2]);
 	drawing_vars[delta_x] = drawing_vars[x_2] - drawing_vars[x_1];
 	drawing_vars[delta_y] = drawing_vars[y_2] - drawing_vars[y_1];
 	obtaining_delta_max(drawing_vars);
@@ -96,103 +122,65 @@ void	init_segment(double *drawing_vars, r_data *grid, int y_win_px_save, t_data 
 	drawing_vars[increment_y] = delta_max_y(drawing_vars);
 	while (i <= drawing_vars[delta_max])
 	{
-		x = round(drawing_vars[x_win_px]);
-		y = round(drawing_vars[y_win_px]);
-		my_mlx_pixel_put(&img, 250 + x, 0 + y, 67176);
-		my_mlx_pixel_put(&img, 250 + x, 0 + y_win_px_save, 0x00FF0000);
-		y_win_px_save--;
+		x = round(drawing_vars[x_1]);
+		y = round(drawing_vars[y_1]);
+		my_mlx_pixel_put(&img, x, y, 0x00FF0000);
+		drawing_vars[x_1] += drawing_vars[increment_x];
+		drawing_vars[y_1] += drawing_vars[increment_y];
 		i++;
-		drawing_vars[delta_max]--;
-		drawing_vars[x_win_px] += drawing_vars[increment_x];
-		drawing_vars[y_win_px] += drawing_vars[increment_y];
 	}
+}
+
+void	update_projection(double *drawing_vars)
+{
+    drawing_vars[y_win_px] = 10 + drawing_vars[sep];
+    drawing_vars[x_win_px] = 10 - drawing_vars[sep];
+    drawing_vars[sep] += 10;
+}
+
+void	scale(double *drawing_vars, double scale)
+{
+	drawing_vars[x_1] *= scale;
+	drawing_vars[y_1] *= scale;
+	drawing_vars[x_2] *= scale;
+	drawing_vars[y_2] *= scale;
 }
 
 void	segment_tracking(t_data img, r_data *grid, void *mlx, void *mlx_win)
 {
-	double	drawing_vars[12];
+	double	*drawing_vars;
 	double	drawing_vars_save[12];
-	int		y_win_px_save;
 
+	drawing_vars = (double [12]){0};
 	init_tracking(drawing_vars);
-	y_win_px_save = drawing_vars[sep];
-	while (drawing_vars[y_1] <= grid->y_max)
+	while (drawing_vars[y_2] < grid->y_max)
 	{
-		while (drawing_vars[x_1] < grid->x_max)
+        drawing_vars[x_2] = 0;
+		while (drawing_vars[x_2] < grid->x_max)
 		{
 			feeding_drawing_vars_save(drawing_vars, drawing_vars_save);
-			init_segment(drawing_vars_save, grid, y_win_px_save, img, mlx, mlx_win);
-			drawing_vars[x_1]++;
+			scale(drawing_vars_save, 0.2);
+			//update_projection(drawing_vars_save);
+			convert_coordonates_for_win(drawing_vars_save, grid);
+			draw_segment((double [12]){
+				[x_1] = drawing_vars[x_win_px],
+				[y_1] = drawing_vars[y_win_px],
+				[x_2] = drawing_vars_save[x_win_px],
+				[y_2] = drawing_vars_save[y_win_px],
+			}, img, mlx, mlx_win);
+			drawing_vars[x_win_px] = drawing_vars_save[x_win_px];
+			drawing_vars[y_win_px] = drawing_vars_save[y_win_px];
+			drawing_vars[x_1] = drawing_vars[x_2];
 			drawing_vars[x_2]++;
-			drawing_vars[y_win_px] = drawing_vars[y_1];
 		}
-        drawing_vars[y_win_px] = 10 + drawing_vars[sep];
-        drawing_vars[x_win_px] = 10 - drawing_vars[sep];
-		y_win_px_save = drawing_vars[y_win_px];
-        drawing_vars[sep] += 10;
-        drawing_vars[x_1] = 0;
-		drawing_vars[x_2] = drawing_vars[x_1] + 1;
-		drawing_vars[y_1]++;
+		drawing_vars[y_2]++;
+		drawing_vars[y_1] = drawing_vars[y_2];
 	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 2.5, 1080 / 3);
-	mlx_loop(mlx);
+
 }
 
-void    center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win)
-{
-	segment_tracking(img, grid, mlx, mlx_win);
-}
-
-/* void	draw_segments_x_axis(t_data img, r_data *grid, void *mlx, void *mlx_win)
-{
-    double   	increment[2];
-	double		win_px[2];
-	int			SPACE = 10;
-	double 		x[2];
-	double		y[2];
-    double   	delta_x = 0;
-    double   	delta_y = 0;
-
-	x[0] = 0;
-	x[1] = x[0] + 1;
-	y[0] = 0;
-	y[1] = 0;
-	win_px[0] = sep;
-	win_px[1] = sep;
-	while (y[0] <= grid->y_max)
-	{
-		while (x[0] < grid->x_max)
-		{
-			y[1] = y[0] + (grid->grid_data[y[0]][x[1]] * 3);
-			delta_x = x[1] - x[0];
-			delta_y = y[1] - y[0];
-			increment[0] = delta_max_x(delta_x, delta_y, x[0]);
-			increment[1] = delta_max_y(delta_x, delta_y, y[0]);
-			while (increment[0] != x[1] && increment[1] != y[0])
-			{
-				my_mlx_pixel_put(&img, 100 + win_px[0] + , 0 + win_px[1], 0x00FF0000);
-				increment[0] += increment[0];
-				increment[1] += increment[1];
-			}
-			x[0]++;
-			x[1] = x[0] + 1;
-		}
-		y[0]++;
-	}
-}
-
-void	center_drawing()
-{
-	while (y++ <= grid->y_max)
-	{
-		draw_segments_x_axis(img, grid, mlx,  mlx_win);
-		draw_segments_y_axis(img, grid, mlx,  mlx_win);
-	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 2.5, 1080 / 3);
-	mlx_loop(mlx);
-} */
-
-/* void    place_pixels(t_data img, r_data *grid, void *mlx, void *mlx_win)
+/*
+void    place_pixels(t_data img, r_data *grid, void *mlx, void *mlx_win)
 {
     int     segvar = 0;
     int     sep = 10;
@@ -208,11 +196,11 @@ void	center_drawing()
         {
             if (grid->grid_data[y][x] == 0)
             {
-                my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin,  0x0000ffff);
+                // my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin,  0x0000ffff);
                 while (segvar++ < 10)
                 {
                     my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin, 0x00FF0000);
-                    my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin_sv, 0x00FF0000);
+                    //my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin_sv, 0x00FF0000);
                     ywin_sv--;
                     xwin++;
                     ywin++;
@@ -220,11 +208,11 @@ void	center_drawing()
             }
             else
             {
-                my_mlx_pixel_put(&img, 100 + xwin, ((grid->grid_data[y][x] * 3) * - 1) + ywin,  0x00FF0000);
+                // my_mlx_pixel_put(&img, 100 + xwin, ((grid->grid_data[y][x] * 3) * - 1) + ywin,  0x00FF0000);
                 while (segvar++ < 10)
                 {
                     my_mlx_pixel_put(&img, 100 + xwin, ((grid->grid_data[y][x] * 3) * - 1) + ywin, 0x7FFDC000);
-                    my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin_sv, 12731);
+                    // my_mlx_pixel_put(&img, 100 + xwin, 0 + ywin_sv, 12731);
                     ywin_sv--;
                     xwin++;
                     ywin++;
@@ -241,6 +229,69 @@ void	center_drawing()
         x = 0;
         y++;
     }
-    mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 2.5, 1080 / 3);
-    mlx_loop(mlx);
-} */
+}
+*/
+
+void	transforme(double *x, double *y)
+{
+	double	X;
+	double	Y;
+
+	X = (*x);
+	Y = (*y);
+	(*x) = X - Y;
+	(*y) = (X * 0.5) + (Y * 0.5);
+}
+
+void	transforme_map(r_data *grid, double *x, double *y, double sep)
+{
+	//(*x) -= grid->x_max;
+	//(*y) += grid->y_max / 2;
+	(*x) *= sep;
+	(*y) *= sep;
+}
+
+void    place_pixels(t_data img, r_data *grid, void *mlx, void *mlx_win)
+{
+    int     x;
+    int     y;
+	int		sep;
+	double	*point;
+
+	sep = 30;
+	point = (double [12]){0};
+	y = 0;
+    while (y <= grid->y_max)
+    {
+		x = 0;
+		//printf("%f %f %f %f \n", point[x_1], point[y_1], point[x_2], point[y_2]);
+
+		point[x_1] = x;
+		point[y_1] = y;
+		//transforme_map(grid, &point[x_2], &point[y_2], sep);
+		//transforme(&point[x_2], &point[y_2]);
+        while (x < grid->x_max)
+        {
+		
+			point[x_2] = x;
+			point[y_2] = y;
+			transforme_map(grid, &point[x_2], &point[y_2], sep);
+			transforme(&point[x_2], &point[y_2]);
+
+			draw_segment(point, img, mlx, mlx_win);
+			point[x_1] = point[x_2];
+			point[y_1] = point[y_2];
+            x++;
+
+        }
+        y++;
+    }
+}
+
+void    center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win)
+{
+	//segment_tracking(img, grid, mlx, mlx_win);
+	place_pixels(img, grid, mlx, mlx_win);
+	mlx_put_image_to_window(mlx, mlx_win, img.img, 1920 / 2.5, 1080 / 3);
+	mlx_loop(mlx);
+}
