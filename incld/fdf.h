@@ -32,18 +32,33 @@
 /**/
 /**/
 
-enum	e_vars_drawing
+enum	e_vars_coordonates__int
 {
-	x_1,
-	x_2,
-	y_1,
-	y_2,
+	x,
+	y,
 	sep,
-	delta_x,
-	delta_y,
 	delta_max,
+	size_map_abs,
+	size_map_ord,
+	actual_pos_height,
+	next_abs_pos_height,
+	next_ord_pos_height
+};
+
+enum	e_vars_math_coordonates__float
+{
+	abs_x_1,
+	abs_y_1,
+	abs_x_2,
+	abs_y_2,
+	ord_x_1,
+	ord_y_1,
+	ord_x_2,
+	ord_y_2,
 	x_win_px,
 	y_win_px,
+	delta_x,
+	delta_y,
 	increment_x,
 	increment_y
 };
