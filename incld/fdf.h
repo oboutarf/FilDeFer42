@@ -32,36 +32,45 @@
 /**/
 /**/
 
-enum	e_vars_coordonates__int
+/* enum	e_vars_coordonates__int
 {
 	x,
 	y,
+	z,
 	sep,
-	delta_max,
+	z_angle,
 	size_map_abs,
-	size_map_ord,
-	actual_pos_height,
-	next_abs_pos_height,
-	next_ord_pos_height
-};
+	size_map_ord
+}; */
 
-enum	e_vars_math_coordonates__float
+/* typedef struct
 {
-	abs_x_1,
-	abs_y_1,
-	abs_x_2,
-	abs_y_2,
-	ord_x_1,
-	ord_y_1,
-	ord_x_2,
-	ord_y_2,
-	x_win_px,
-	y_win_px,
-	delta_x,
-	delta_y,
-	increment_x,
-	increment_y
-};
+	int 	win_x;
+	int		win_y;
+}			t_prm;
+ */
+typedef	struct
+{
+	int		a[2];
+	int		b[2];
+}			t_vctr;
+	
+typedef struct
+{	
+	float	x[3];
+	float	y[3];
+	float	z[3];
+	float	steps[2];
+	float	x_incr[2];
+	float	y_incr[2];
+	int		x_delta[2];
+	int		y_delta[2];
+	float	angle;
+	float	scale;
+	int		win_x;
+	int		win_y;
+	int		space;
+} 			t_pxl;
 
 typedef struct
 {
