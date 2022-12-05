@@ -49,10 +49,12 @@
 	int		win_y;
 }			t_prm;
  */
+
 typedef	struct
 {
-	int		a[2];
-	int		b[2];
+	float	x;
+	float	y;
+	float 	z;
 }			t_vctr;
 	
 typedef struct
@@ -67,9 +69,10 @@ typedef struct
 	int		y_delta[2];
 	float	angle;
 	float	scale;
-	int		win_x;
-	int		win_y;
+	int		x_win;
+	int		y_win;
 	int		space;
+	float	z_scale;
 } 			t_pxl;
 
 typedef struct
