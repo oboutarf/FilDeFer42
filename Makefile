@@ -27,8 +27,6 @@ RM			= rm -rf
 
 all:		$(NAME)
 
-# mlx/libmlx.a:
-
 %.o: %.c
 			$(CC) $(DEBUG_INFO) -Iincld -Imlx -c $< -o $@
 

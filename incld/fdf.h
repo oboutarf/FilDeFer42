@@ -50,15 +50,18 @@
 }			t_prm;
  */
 
-typedef	struct
+typedef	struct	t_vct
 {
-	float	x;
-	float	y;
-	float 	z;
-}			t_vctr;
+	float			x;
+	float			y;
+	// float 			z;
+	int				is_last;
+	struct t_vct	*next;
+}					t_vct;
 	
 typedef struct
 {	
+	int		line_abs_len;
 	float	x[3];
 	float	y[3];
 	float	z[3];
