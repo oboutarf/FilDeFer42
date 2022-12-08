@@ -18,7 +18,8 @@ SRCS		= main/main.c srcs/read/get_next_line.c \
 			  srcs/read/get_next_line_utils.c srcs/read/read.c \
 			  srcs/read/split.c srcs/print/print.c srcs/draw/drawing_pixels.c \
 
-DEBUG_INFO  = -g3
+DEBUG_INFO  = -g3 \
+# -fsanitize=address
 
 OBJ			= $(SRCS:.c=.o)
 

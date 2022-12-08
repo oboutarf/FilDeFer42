@@ -50,11 +50,12 @@
 }			t_prm;
  */
 
+
+
 typedef	struct	t_vct
 {
 	float			x;
 	float			y;
-	// float 			z;
 	int				is_last;
 	struct t_vct	*next;
 }					t_vct;
