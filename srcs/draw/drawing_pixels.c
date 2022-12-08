@@ -51,7 +51,6 @@ t_pxl	*attribute_z_coordonates(t_pxl *draw, r_data *grid, int x, int y)
 {
 	draw->z[0] = (grid->grid_data[y][x]) * draw->z_scale;
 	draw->z[1] = (grid->grid_data[y][x + 1]) * draw->z_scale;
-	draw->z[2] = grid->grid_data[y + 1][x] * draw->z_scale;
 }
 
 t_pxl	*init_t_pxl(t_pxl *draw)
@@ -79,8 +78,8 @@ t_pxl	*init_t_pxl(t_pxl *draw)
 	draw->space = 10;
 	draw->x_win = 800;
 	draw->y_win = 500;
-	draw->angle = 0.5;
-	draw->scale = 15;
+	draw->angle = 0.8;
+	draw->scale = 25;
 	draw->z_scale = 15;
 }
 
@@ -137,13 +136,15 @@ void	print_line(t_vct *line)
 	}
 }
 
-
 t_pxl	*calculate_pixels_first_incrementation(t_pxl *draw, float *x, float *y, t_vct *line)
 {
-	x[0] = line->x;
-	y[0] = line->y;
-	x[1] = line->next->x;
-	y[1] = line->next->y;
+	if (!line->is_last == 1)
+	{
+		x[0] = line->x;
+		y[0] = line->y;
+		x[1] = line->next->x;
+		y[1] = line->next->y;
+	}
 
 	draw->x_delta[0] = x[1] - x[0];
 	draw->y_delta[0] = y[1] - y[0];
@@ -158,8 +159,6 @@ t_pxl	*calculate_pixels_first_incrementation(t_pxl *draw, float *x, float *y, t_
 
 	return (draw);
 }
-
-
 
 t_pxl	*calculate_pixels_incrementation(t_pxl *draw, float *x, float *y, t_vct *line, t_vct *line_ord)
 {
@@ -199,62 +198,73 @@ t_pxl	*calculate_pixels_incrementation(t_pxl *draw, float *x, float *y, t_vct *l
 
 void	draw_first_line(t_vct *line, t_pxl *draw, t_data img)
 {
-	// t_vct	*save_head;
 	float	x[2];
 	float	y[2];
 
-	// save_head = line;
 	while (line->next)
 	{
-		if (line->is_last == 1)
-			break ;
+		// if (line->is_last == 1)
+		// 	break ;
 		draw = calculate_pixels_first_incrementation(draw, x, y, line);
-		while (draw->steps[0] > 0)
+		while (draw->steps[0]-- > 0)
 		{
 			my_mlx_pixel_put(&img, round(x[0]), round(y[0]), 0x00FF0000);
 			x[0] += draw->x_incr[0];
 			y[0] += draw->y_incr[0];
-			draw->steps[0]--;
 		}
 		line = line->next;
 	}
-	// line = save_head;
 }
 
+void 	is_last_ordonnate_segment(t_vct *line, t_vct *line_ord, t_pxl *draw, t_data img)
+{
+	float	x[2];
+	float	y[2];
 
+	if (line->is_last == 1 && line_ord->is_last == 1)
+	{
+		x[0] = line->x;
+		y[0] = line->y;
+		x[1] = line_ord->x;
+		y[1] = line_ord->y;
+		draw = calculate_pixels_first_incrementation(draw, x, y, line);
+		while (draw->steps[0]-- > 0)
+		{
+			my_mlx_pixel_put(&img, round(x[0]), round(y[0]), 0x00FF0000);
+			x[0] += draw->x_incr[0];
+			y[0] += draw->y_incr[0];
+		}
+	}
+}
 
 void 	draw_line(t_vct *line, t_vct *line_ord, t_pxl *draw, t_data img)
 {
 	float	x[4];
 	float	y[4];
 
-	// print_line(line_ord);
-	// print_line(line);
 	while (line->next)
 	{
-		if (line->is_last == 1)
-			break ;
 		draw = calculate_pixels_incrementation(draw, x, y, line, line_ord);
-		while (draw->steps[0] > 0)
+		while (draw->steps[0]-- > 0)
 		{
 			my_mlx_pixel_put(&img, round(x[0]), round(y[0]), 0x00FF0000);
 			x[0] += draw->x_incr[0];
 			y[0] += draw->y_incr[0];
-			draw->steps[0]--;
 		}
-		while (draw->steps[1] > 0)
+		while (draw->steps[1]-- > 0)
 		{
 			my_mlx_pixel_put(&img, round(x[2]), round(y[2]), 0x00FF0000);
 			x[2] += draw->x_incr[1];
 			y[2] += draw->y_incr[1];
-			draw->steps[1]--;
 		}
 		line = line->next;
 		line_ord = line_ord->next;
 	}
+
+	is_last_ordonnate_segment(line, line_ord, draw, img);
+
+
 }
-
-
 
 t_vct	*save_coordonates_ord(t_vct *input, int len)
 {
@@ -277,7 +287,6 @@ t_vct	*save_coordonates_ord(t_vct *input, int len)
 	sv_coord = save_head;
 	return (sv_coord);
 }
-
 
 void	center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win)
 {
@@ -304,6 +313,8 @@ void	center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win)
 			draw = attribute_z_coordonates(draw, grid, x, y);
 			line = segments_absord_calculating(img, draw, x , y, line);
 			x++;
+			if (x + 1 > grid->x_max)
+				break ; 
 		}
 		line = save_line;
 		if (y == 0)
@@ -312,6 +323,8 @@ void	center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win)
 			draw_line(line, line_ord, draw, img);
 		y++;
 	}
+	free(draw);
+	// free_t_vcts(&line, &line_ord);
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
 }

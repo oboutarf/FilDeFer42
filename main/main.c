@@ -27,8 +27,6 @@ int	main(int ac, char **av)
 	void	*mlx_win;
 	void	*mlx;
 	int		fd = 0;
-	int		x = 0;
-	int		y = 0;
 
 // # Init struct grid # //
 	if (ac == 2)
@@ -46,6 +44,7 @@ int	main(int ac, char **av)
 // # Implement struct grid with MiniLibx Projection # //
 	center_draw(img, grid, mlx, mlx_win);
 // # Terminate Program # //
+	mlx_destroy_display(mlx);
 	close(fd);
 // # End
 }
