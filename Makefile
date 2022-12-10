@@ -14,12 +14,11 @@ NAME 		= fdf42
 
 CC 			= gcc
 
-SRCS		= main/main.c srcs/read/get_next_line.c \
-			  srcs/read/get_next_line_utils.c srcs/read/read.c \
+SRCS		= main/main.c srcs/read/read.c \
 			  srcs/read/split.c srcs/print/print.c srcs/draw/drawing_pixels.c \
+			  gnl/get_next_line.c gnl/get_next_line_utils.c \
 
-DEBUG_INFO  = -g3 \
-# -fsanitize=address
+DEBUG_INFO  = -g3 
 
 OBJ			= $(SRCS:.c=.o)
 
@@ -29,7 +28,7 @@ RM			= rm -rf
 all:		$(NAME)
 
 %.o: %.c
-			$(CC) $(DEBUG_INFO) -Iincld -Imlx -c $< -o $@
+			$(CC) $(DEBUG_INFO) -Wall -Wextra -Werror -Iincld -Imlx -c $< -o $@
 
 $(NAME): 	$(OBJ)
 			make -C mlx

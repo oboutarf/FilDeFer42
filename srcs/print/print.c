@@ -14,18 +14,22 @@
 
 void	print_grid_data(r_data *grid)
 {
-	int		y1 = 0;
+	int		y = 0;
 	int		x = 0;
 
-	while (y1 <= grid->y_max)
+	while (y <= grid->y_max)
 	{
 		x = 0;
-		while (x < grid->x_max && y1 <= grid->y_max)
+		if (y + 1 == grid->y_max)
+			break ;
+		while (x < grid->x_max && y <= grid->y_max)
 		{
-			printf("[%d][%d] = %d\n", y1, x, grid->grid_data[y1][x]);
+			if (x + 1 == grid->x_max)
+				break ;
+			printf("[%d][%d] = %d\n", y, x, grid->grid_data[y][x]);
 			x++;
 		}
 		printf("\n\n");
-		y1++;
+		y++;
 	}
 }

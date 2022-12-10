@@ -12,6 +12,39 @@
 
 #include "../../incld/fdf.h"
 
+void	*ft_memset(void *s, int c, size_t n)
+{
+	unsigned char	*s1;
+	size_t			i;
+
+	i = 0;
+	s1 = (unsigned char *)s;
+	while (i < n)
+	{
+		s1[i] = c;
+		i++;
+	}
+	return (s1);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*alloc;
+
+	if (nmemb == 0 || size == 0)
+	{
+		nmemb = 1;
+		size = 1;
+	}
+	if (size && (65535 / size) < nmemb)
+		return (NULL);
+	alloc = malloc((size * nmemb));
+	if (!alloc)
+		return (NULL);
+	ft_memset(alloc, '\0', size * nmemb);
+	return (alloc);
+}
+
 int	data_width(char *line)
 {
 	int		count;
@@ -71,6 +104,8 @@ r_data *get_number_of_lines(char *buf, r_data *grid)
 			y++;
 	grid->x_max = x;
 	grid->y_max = y;
+
+
 	return (grid);
 }
 
@@ -79,7 +114,6 @@ r_data	*push_coordonnates(r_data *grid, char *grid_output)
 	char 	**lines;
 	int		x = 0;
 	int		y = 0;
-	int		stop = 0;
 	int		i = 0;
 
 	lines = ft_split(grid_output, ' ');
@@ -108,31 +142,36 @@ r_data	*assign_coordonnates_max(char *buf)
 
 r_data	*malloc_grid(r_data *grid, int y)
 {
-	while (y <= grid->y_max)
+	grid->grid_data = malloc(sizeof(int *) * (grid->y_max));
+	while (y < grid->y_max)
 	{
-		if (y == 0)
-			grid->grid_data = malloc(sizeof(int *) * (grid->y_max));
-		grid->grid_data[y] = malloc(sizeof(int) * (grid->x_max));
+		grid->grid_data[y] = ft_calloc(sizeof(int), (grid->x_max));
 		y++;
 	}
 	return (grid);
 }
 
-r_data *parse_grid(char *input_file, int fd)
+r_data *parse_grid(int fd)
 {
-	char 		buf[BUFFER_SIZE];
+	char 		*buf;
     r_data		*grid;
-	int			number_lines;
-	int			y = 0;
-	int			y1 = 0;
-	int			x = 0;	
+	char		*lgn;
+	int			y;
 
-    fd = open(input_file, O_RDONLY);
-	ft_bzero(buf, BUFFER_SIZE);
-	read(fd, buf, BUFFER_SIZE);
-	grid = assign_coordonnates_max(buf);
+	y = 0;
+	lgn = NULL;
+	buf = ft_calloc(sizeof(char), BUFFER_SIZE);
+	while (1)
+	{
+		lgn = ft_strjoin(lgn, buf);
+		buf = get_next_line(fd);
+		if (buf == NULL)
+			break ;
+	}
+	// printf("%s", lgn);
+	grid = assign_coordonnates_max(lgn);
 	grid = malloc_grid(grid, y);
-	grid = push_coordonnates(grid, buf);
+	grid = push_coordonnates(grid, lgn);
     close(fd);
 	return (grid);
 }

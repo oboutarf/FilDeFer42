@@ -6,11 +6,11 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:11:42 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/02 14:47:17 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/06/20 21:01:21 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incld/fdf.h"
+#include "fdf.h"
 
 int	ft_strbn(char *str)
 {

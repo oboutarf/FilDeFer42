@@ -20,12 +20,25 @@ int	check_fd(int ac)
 		return (1);
 }
 
+int		terminate_prog(t_prog *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->mlx_win);
+	return (0);
+}
+
+int	key_hook(int keycode, t_prog *vars)
+{
+	if (keycode == XK_Escape)
+		terminate_prog(vars);
+	// if (keycode == XC_X_cursor)
+	// 	terminate_prog(vars);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	r_data	*grid;
-	t_data	img;
-	void	*mlx_win;
-	void	*mlx;
+	t_prog	vars;
 	int		fd = 0;
 
 // # Init struct grid # //
@@ -33,58 +46,25 @@ int	main(int ac, char **av)
 		fd = open(av[ac - 1], O_RDONLY);
 	else
 		return ((write(1, "\nERROR!\nNO_INPUT!\n\n", 19)), 1);
-	grid = parse_grid(av[ac - 1], fd);
+	grid = parse_grid(fd);
+	print_grid_data(grid);
+	close(fd);
+//==================================================================================//
 // # Implement struct grid with MiniLibx Projection # //
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "fdf42 -oboutarf");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
+	vars.mlx = mlx_init();
+	vars.mlx_win = mlx_new_window(vars.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "fdf42 -oboutarf");
+	vars.img = mlx_new_image(vars.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	vars.addr = mlx_get_data_addr(vars.img, &vars.bits_per_pixel, &vars.line_length, &vars.endian);
 // # Checking grid data (unactivated) # //
 	// print_grid_data(grid);
 // # Implement struct grid with MiniLibx Projection # //
-	center_draw(img, grid, mlx, mlx_win);
+//==================================================================================//
+	center_draw(vars, grid);
+	mlx_key_hook(vars.mlx_win, key_hook, &vars);
+	mlx_loop(vars.mlx);
+	/* mlx_hook() */
 // # Terminate Program # //
-	mlx_destroy_display(mlx);
-	close(fd);
 // # End
+	return (0);
 }
-// # Save Shit # //
-/* int	main(int ac, char **av)
-{
-	r_data		*grid;
-	int		fd = 0;
 
-	if (ac == 2)
-		fd = open(av[ac - 1], O_RDONLY);
-	else
-		return ((write(1, "\nERROR!\nNO_INPUT!\n\n", 19)), 1);
-	grid = parse_grid(av[ac - 1], fd);
-	// print_grid_data(grid);
-	close(fd);
-	return (0); */
-		// printf("%s\n", grid_output);
-	// printf("\n\ny is: %d\n\n", y);
-	// printf("%s\n",*ft_split(grid_output, ' '));
-	// printf("\n\ny_max is : %d\n\n", grid->y_max);
-	// printf("\n\n%d\n\n", (grid->x_max * grid->y_max));
-	// printf("\n\n%d | %d\n\n", grid->x_max, grid->y_max);
-	// printf("\n\nLign is ----->    %s   \n\n", lines[y]);
-	// printf( "\n\nx_max is: %d;\ny_max is: %d;\n\n", grid->x_max, grid->y_max);
-	// printf("\n\ngrid_x_max is: %d || grid_y_max is: %d || pointer on grid_data is: %p\n\n", grid->x_max, grid->y_max, grid->grid_data);
-	// printf("\n\n  --  lines is: %s --  \n\n", lines[i + 7]);
-	// printf("\n\n%d\n\n", grid->x_max);
-	// printf("\n\n%d\n\n", grid->grid_data[2][2]);
-	// printf("\n\n--- grid->x_max is: %d || grid->y_max is: %d ---\n\n", grid->x_max, grid->y_max);
-	// printf("grid_x_max is: %d\n", grid->x_max);
-	// printf("\n\n%d\n\n", x);
-	// printf("\033[0;31m");
-	// printf("\n\n%d || %d\n\n", *grid[y], y);
-	// printf("\033[0m");
-	// printf("\n\n%s || %d\n\n", line, y);
-	// printf("\n\n%s || %d\n\n", line, y);
-	/* 	while (i < 100)
-			printf("\n%s\n", lines[i]);
-			i++;
-		}
-		return (grid); 
-	*/

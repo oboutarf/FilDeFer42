@@ -6,11 +6,11 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:12:05 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/03 18:43:27 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/11/01 19:03:15 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incld/fdf.h"
+#include "get_next_line.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {
@@ -43,7 +43,10 @@ char	*ft_strjoin(char *s1, char *s2)
 char	*ft_getbn(char *lgn, int s_bin)
 {
 	char	*dest;
-	int		i;	
+	int		i;
+
+	dest = (char *)malloc(sizeof(char) * (s_bin + 1));
+	if (!dest)
 		return (NULL);
 	i = 0;
 	while (s_bin + 1 > 0)
@@ -71,9 +74,9 @@ void	ft_mylstbuf(char *buf, char *lgn, int s_bin)
 	buf[i] = '\0';
 }
 
-char	*get_next_line(int fd)
+char 	*get_next_line(int fd)
 {
-	static char		buf[BUFFER_SIZE + 1];
+	static char		buf[BUFFER_SIZE];
 	int				s_bin;
 	char			*lgn;
 	int				vrf;
@@ -88,7 +91,7 @@ char	*get_next_line(int fd)
 		ft_bzero(buf, BUFFER_SIZE + 1);
 		vrf = read(fd, buf, BUFFER_SIZE);
 		if (buf[0] == 0 && vrf <= 0)
-			return (lgn);
+			return (NULL);
 		lgn = ft_strjoin(lgn, buf);
 	}
 	s_bin = ft_strbn(lgn);

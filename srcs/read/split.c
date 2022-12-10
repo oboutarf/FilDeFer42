@@ -87,6 +87,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	while (a < tablength(s, c))
 	{
+		// printf("\n\n\n\n\nHELLO\n\n\n\n\n");
 		while (s[i] == c)
 			i++;
 		tab[a] = malloc(sizeof(char) * myanti_c(s, i, c) + 1);

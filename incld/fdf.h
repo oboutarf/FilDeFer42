@@ -13,12 +13,18 @@
 
 #ifndef FDF_H
 # define FDF_H
-# define BUFFER_SIZE 10000
+# define BUFFER_SIZE 10
 # define SPACE 10
+# define WINDOW_HEIGHT 1442
+# define WINDOW_WIDTH 2700
+# define WIN_X WINDOW_WIDTH / 2.5
+# define WIN_Y WINDOW_HEIGHT / 2.5
 
 # include "../mlx/mlx_int.h"
 # include "../mlx/mlx.h"
 # include <math.h>
+# include <X11/keysym.h>
+# include <X11/cursorfont.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -28,38 +34,27 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-// STRUCTURE FOR MAP
-/**/
-/**/
 
-/* enum	e_vars_coordonates__int
+// MLX
+typedef	struct
 {
-	x,
-	y,
-	z,
-	sep,
-	z_angle,
-	size_map_abs,
-	size_map_ord
-}; */
-
-/* typedef struct
-{
-	int 	win_x;
-	int		win_y;
-}			t_prm;
- */
-
-
-
-typedef	struct	t_vct
+	void		*mlx_win;
+	void		*mlx;
+	char		*addr;
+	void		*img;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+}					t_prog;
+// VECT
+typedef	struct		s_vct
 {
 	float			x;
 	float			y;
 	int				is_last;
-	struct t_vct	*next;
+	struct s_vct	*next;
 }					t_vct;
-	
+// DRAW
 typedef struct
 {	
 	int		line_abs_len;
@@ -73,53 +68,63 @@ typedef struct
 	int		y_delta[2];
 	float	angle;
 	float	scale;
-	int		x_win;
-	int		y_win;
 	int		space;
 	float	z_scale;
 } 			t_pxl;
-
-typedef struct
-{
-	char	*addr;
-	void	*img;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}			t_data;
-
+// GRID
 typedef struct
 {
 	int		**grid_data;
 	int		y_max;
 	int		x_max;
 }				r_data;
-
-// 	SPLIT_FUNCS
-//	************
-static char	**mallocrash(char **tab);
-static char	*ft_mystrlcpy(char *dest, char *src, int size, int i);
-static int	tablength(char const *s, char c);
-static int	myanti_c(char const *s, int i, char c);
-char	**ft_split(char const *s, char c);
-
-
-// 	READ INPUT MAP TO GATHER INFORMATION
-//	************************************
+// // FUNCS
+// GRID
+r_data	*push_coordonnates(r_data *grid, char *grid_output);
+r_data 	*parse_grid(int fd);
+// PRINT
+void	print_line(t_vct *line);
 void	print_grid_data(r_data *grid);
-r_data 	*parse_grid(char *input_file, int fd);
-size_t	ft_strlen(char *str);
+// MAIN
+int		check_fd(int ac);
+// ERROR
+void       ft_error(char *error_message);
+// DRAW
+void	center_draw(t_prog vars, r_data *grid);
+void	my_mlx_pixel_put(t_prog vars, int x, int y, int color);
+void 	draw_line(t_vct *line, t_vct *line_ord, t_pxl *draw, t_prog vars);
+void	draw_first_line(t_vct *line, t_pxl *draw, t_prog vars);
+void 	is_last_ordonnate_segment(t_vct *line, t_vct *line_ord, t_pxl *draw, t_prog vars);
+// SAVE
+t_vct	*save_coordonates_ord(t_vct *input, int len);
+// CALC
+int		data_width(char *line);
+r_data	*assign_coordonnates_max(char *buf);
+r_data 	*get_number_of_lines(char *buf, r_data *grid);
+void	attribute_z_coordonates(t_pxl *draw, r_data *grid, int x, int y);
+void	scale_draw_variables(t_pxl *draw);
+void	attribute_iso_coordonates(t_pxl *draw);
+t_vct	*segments_absord_calculating(t_pxl *draw, int grid_x, int grid_y, t_vct *line);
+t_pxl	*calculate_pixels_first_incrementation(t_pxl *draw, float *x, float *y, t_vct *line);
+t_pxl	*calculate_pixels_incrementation(t_pxl *draw, float *x, float *y, t_vct *line, t_vct *line_ord);
+// CONVERT
+int	ft_atoi(char *nptr);
+// GNL
 char	*get_next_line(int fd);
 void	ft_bzero(void *s, size_t n);
-void	ft_mylstbuf(char *buf, char *lgn, int s_bin);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
+size_t	ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_getbn(char *lgn, int s_bin);
-int		ft_strbn(char *str);
-void    ft_error_noinput(void);
+// INIT
+t_pxl	*init_t_pxl(void);
+// FREE
+// 
+// ALLOC
+// static char	**mallocrash(char **tab);
+t_vct		*elem_addto_line(t_vct **line);
+t_vct		*save_coordonates_ord(t_vct *input, int len);
+void		malloc_line(t_vct **line, int number_elems);
+// SPLIT
+char	**ft_split(char const *s, char c);
 
-// 	DRAWING FUNCTIONS
-//	************************************
-void	center_draw(t_data img, r_data *grid, void *mlx, void *mlx_win);
 
 #endif
