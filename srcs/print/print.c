@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 05:12:24 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/12/11 21:52:08 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/12 11:36:05 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_line(t_vct *line)
 {
 	while (line->next)
 	{
-		// printf("LINES == %f  ---  %f    -%d\n", line->x, line->y, line->is_last);
+		printf("LINES == %f  ---  %f    -%f\n", line->x, line->y, line->is_last);
 		if (!line)
 			return ;
 		line = line->next;

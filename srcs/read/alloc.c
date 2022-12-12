@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 15:58:01 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/12/11 23:41:46 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/12 11:37:17 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ void	*ft_memset(void *s, int c, size_t n)
 		i++;
 	}
 	return (s1);
+}
+
+void	free_grid_data(t_data *grid)
+{
+	size_t	len;
+
+	len = grid->y_max;
+	if (!grid->grid_data)
+		return ;
+	while (len > 0)
+		free(grid->grid_data[--len]);
+	free(grid->grid_data);
+	free(grid);
 }
 
 void	free_l(t_vct **line, int size)
@@ -59,7 +72,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	ft_memset(alloc, '\0', size * nmemb);
 	return (alloc);
 }
-
 
 t_data	*malloc_grid(t_data *grid, int y)
 {

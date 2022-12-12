@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 19:07:18 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/12/11 23:48:17 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:42:03 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_data	*push_coordonnates(t_data *grid, char *grid_output)
 	y = 0;
 	i = 0;
 	lines = ft_split(grid_output, ' ');
-	while (y < grid->y_max)
+	while (y + 1 < grid->y_max)
 	{
 		x = 0;
 		while (x + 1 < grid->x_max)

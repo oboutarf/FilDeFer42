@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:27:16 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/12/12 01:03:58 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/12 14:38:29 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	free_mlx(t_prog *vars)
 	{
 		mlx_clear_window(vars->mlx, vars->mlx_win);
 		mlx_destroy_window(vars->mlx, vars->mlx_win);
-	}	
+	}
 	if (vars->mlx)
 	{
 		mlx_destroy_display(vars->mlx);
@@ -47,7 +47,7 @@ int	free_mlx(t_prog *vars)
 	return (0);
 }
 
-t_prog	init_mlx_vars()
+t_prog	init_mlx_vars(void)
 {
 	t_prog	new;
 
@@ -62,27 +62,11 @@ t_prog	init_mlx_vars()
 	return (new);
 }
 
-void	free_grid_data(t_data *grid)
-{
-	size_t	len;
-
-	len = grid->y_max; 
-	if (!grid->grid_data)
-		return ;
-	while (len > 0)
-		free(grid->grid_data[--len]);
-	free(grid->grid_data);
-	free(grid);
-}
-
 int	main(int ac, char **av)
 {
 	t_data	*grid;
 	t_prog	vars;
 	int		fd;
-	int test;
-
-	printf("test : %p", &test);
 
 	fd = 0;
 	if (ac == 2)
@@ -90,18 +74,17 @@ int	main(int ac, char **av)
 	else
 		return ((write(1, "\nERROR!\nNO_INPUT!\n\n", 19)), 1);
 	if (fd < 0)
-		return (1) ;
+		return (1);
 	grid = parse_grid(fd);
 	if (grid == NULL)
 		return (1);
 	close(fd);
 	vars = init_mlx_vars();
 	center_draw(vars, grid);
-	mlx_key_hook(vars.mlx_win, key_hook, &vars);
 	mlx_hook(vars.mlx_win, 17, 0, mlx_loop_end, vars.mlx);
+	mlx_key_hook(vars.mlx_win, key_hook, &vars);
 	mlx_loop(vars.mlx);
 	free_mlx(&vars);
 	free_grid_data(grid);
-	// fonction free
 	return (0);
 }

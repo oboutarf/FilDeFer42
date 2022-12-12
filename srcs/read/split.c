@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 18:15:27 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/02 19:03:01 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:09:51 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ char	**ft_split(char const *s, char c)
 	char	**tab;
 	int		i;
 	int		a;
+	int		alloc;
 
 	i = 0;
 	a = 0;
-	tab = (char **)malloc(sizeof(char *) * (tablength(s, c) + 1));
+	alloc = tablength(s, c);
+	tab = (char **)malloc(sizeof(char *) * (alloc + 1));
 	if (!tab)
 		return (NULL);
-	while (a < tablength(s, c))
+	while (a < alloc)
 	{
 		while (s[i] == c)
 			i++;

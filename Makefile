@@ -6,11 +6,11 @@
 #    By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 15:10:37 by oboutarf          #+#    #+#              #
-#    Updated: 2022/12/11 16:02:55 by oboutarf         ###   ########.fr        #
+#    Updated: 2022/12/12 16:17:04 by oboutarf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= fdf42
+NAME 		= fdf
 
 CC 			= gcc
 
@@ -42,6 +42,7 @@ clean:
 			$(RM) srcs/read/*.o && $(RM) main/*.o
 			$(RM) srcs/print/*.o && $(RM) srcs/error/*.o
 			$(RM) srcs/draw/*.o
+			$(RM) gnl/*.o
 			make clean -C mlx
 
 fclean:		clean

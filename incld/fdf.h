@@ -6,20 +6,17 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:24:41 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/12/12 00:51:07 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/12 16:01:55 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100
-# endif
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1080
+#  define WINDOW_HEIGHT 1440
 # endif
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1920
+#  define WINDOW_WIDTH 2560
 # endif
 
 # include "../mlx/mlx_int.h"
@@ -80,7 +77,10 @@ typedef struct s_data
 	int		y_max;
 	int		x_max;
 }				t_data;
+
 // // FUNCS
+// EVENTS
+int		key_hook(int keycode, t_prog *vars);
 // GRID
 t_data	*push_coordonnates(t_data *grid, char *grid_output);
 t_data	*parse_grid(int fd);
@@ -128,7 +128,7 @@ void	ft_bzero(void *s, size_t n);
 size_t	ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
 // INIT
-t_pxl	*init_t_pxl(void);
+t_pxl	*init_t_pxl(t_data *grid);
 void	make_inits(t_vct *line_ord, int *iter, t_data *grid, t_pxl *draw);
 // FREE
 // 
@@ -136,6 +136,7 @@ void	make_inits(t_vct *line_ord, int *iter, t_data *grid, t_pxl *draw);
 // static char	**mallocrash(char **tab);
 t_vct	*elem_addto_line(t_vct **line);
 void	free_l(t_vct **line, int size);
+void	free_grid_data(t_data *grid);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	malloc_line(t_vct **line, int number_elems);
 void	*ft_memset(void *s, int c, size_t n);

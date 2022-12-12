@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 14:05:54 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/12/12 00:50:54 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/12 16:07:02 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ t_vct	*segments_absord_calculating(t_pxl *draw, int grid_x,
 	scale_draw_variables(draw);
 	attribute_iso_coordonates(draw);
 	draw->x[0] += WINDOW_WIDTH / 2.5;
-	draw->y[0] += WINDOW_HEIGHT / 2.5;
+	draw->y[0] += WINDOW_HEIGHT / 3;
 	draw->x[1] += WINDOW_WIDTH / 2.5;
-	draw->y[1] += WINDOW_HEIGHT / 2.5;
+	draw->y[1] += WINDOW_HEIGHT / 3;
 	line->x = draw->x[0];
 	line->y = draw->y[0];
 	if (grid_x + 1 == draw->line_abs_len)
@@ -82,13 +82,6 @@ t_vct	*start_process_draw(t_data *grid, t_prog vars, t_pxl *draw, t_vct *line)
 		draw->y[0] = iter[1];
 		choose_line(draw, line, line_ord, vars);
 	}
-	// if (line_ord)
-	// {
-	// 	printf("IS HERE\n");
-	// 	free_l(&line_ord, grid->y_max);
-	// }
-	// else 
-	// 	printf("IS NOT HERE\n");
 	return (line_ord);
 }
 
@@ -99,7 +92,7 @@ void	center_draw(t_prog vars, t_data *grid)
 	t_vct		*dump;
 
 	line = NULL;
-	draw = init_t_pxl();
+	draw = init_t_pxl(grid);
 	malloc_line(&line, grid->x_max);
 	dump = start_process_draw(grid, vars, draw, line);
 	free(draw);
