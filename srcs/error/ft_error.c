@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void       ft_error(char *error_message)
+void	ft_error(char *error_message)
 {
-    int	i;
+	int		i;
 
 	i = -1;
 	while (error_message[++i])
-    	write(1, &error_message[i], 1);
+		write(1, &error_message[i], 1);
 }

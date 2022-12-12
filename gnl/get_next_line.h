@@ -6,7 +6,7 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:15:30 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/06/23 15:08:07 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/11 17:55:12 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 100
 # endif
 
 # include <unistd.h>
@@ -22,8 +22,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-char    *get_next_line(int fd);
 size_t	ft_strlen(char *str);
+char	*get_next_line(int fd);
 void	ft_bzero(void *s, size_t n);
 void	ft_mylstbuf(char *buf, char *lgn, int s_bin);
 void	*ft_memcpy(void *dest, const void *src, size_t n);

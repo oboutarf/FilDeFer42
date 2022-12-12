@@ -6,7 +6,7 @@
 #    By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 15:10:37 by oboutarf          #+#    #+#              #
-#    Updated: 2022/11/22 19:59:15 by oboutarf         ###   ########.fr        #
+#    Updated: 2022/12/11 16:02:55 by oboutarf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,11 @@ NAME 		= fdf42
 
 CC 			= gcc
 
-SRCS		= main/main.c srcs/read/read.c \
-			  srcs/read/split.c srcs/print/print.c srcs/draw/drawing_pixels.c \
+SRCS		= main/main.c srcs/read/parsing.c  \
+			  srcs/read/read.c srcs/read/split.c srcs/read/alloc.c \
+			  srcs/print/print.c \
+			  srcs/draw/draw.c srcs/draw/inits.c srcs/draw/center.c \
+			  srcs/draw/dda.c srcs/draw/param.c \
 			  gnl/get_next_line.c gnl/get_next_line_utils.c \
 
 DEBUG_INFO  = -g3 

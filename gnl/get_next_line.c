@@ -74,7 +74,7 @@ void	ft_mylstbuf(char *buf, char *lgn, int s_bin)
 	buf[i] = '\0';
 }
 
-char 	*get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	static char		buf[BUFFER_SIZE];
 	int				s_bin;

@@ -6,17 +6,19 @@
 /*   By: oboutarf <oboutarf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 05:12:24 by oboutarf          #+#    #+#             */
-/*   Updated: 2022/11/22 17:28:30 by oboutarf         ###   ########.fr       */
+/*   Updated: 2022/12/11 21:52:08 by oboutarf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	print_grid_data(r_data *grid)
+void	print_grid_data(t_data *grid)
 {
-	int		y = 0;
-	int		x = 0;
+	int		y;
+	int		x;
 
+	x = 0;
+	y = 0;
 	while (y <= grid->y_max)
 	{
 		x = 0;
@@ -31,5 +33,16 @@ void	print_grid_data(r_data *grid)
 		}
 		printf("\n\n");
 		y++;
+	}
+}
+
+void	print_line(t_vct *line)
+{
+	while (line->next)
+	{
+		// printf("LINES == %f  ---  %f    -%d\n", line->x, line->y, line->is_last);
+		if (!line)
+			return ;
+		line = line->next;
 	}
 }
